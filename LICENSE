@@ -22,4 +22,3 @@ SOFTWARE.
 
 ## Acknowledgments
 This project uses `python-pptx`, which is licensed under the MIT License. You can find more information about `python-pptx` [here](https://github.com/scanny/python-pptx).
-This project uses `PyInstaller`, which is licensed under the GPLv2. You can find more information about `PyInstaller` [here](https://github.com/pyinstaller/pyinstaller).

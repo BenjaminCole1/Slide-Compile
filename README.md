@@ -2,10 +2,10 @@
 A Text-Based Slideshow Editor
 
 ## Dependencies
-Windows
+Windows, Python, Python-pptx
 
 ## Usage
-1) Run SlideCompile.exe
+1) Run SlideCompile.py
 2) Write slides with the syntax shown in the syntax section
 3) Press Compile, if you didn't save, it will prompt you to save to a location, and then it will prompt you to save the pptx (powerpoint file) to a location on your computer
 4) if you get any errors or you can't get it working, first try troubleshooting them within the "Common Errors" section in this readme
@@ -39,9 +39,6 @@ Content: this is some content with a bullet point in front of it
 
 ___________________________
 ## Common Errors
-### program closes immediately on startup
-Make sure that _internal is in the same directory as SlideCompile.exe, if it is, please run the program in the command line and make an issue on this github page with the error
-
 ### Could not open file
 make sure that windows defender isn't blocking the reading or writing permissions of the program
 

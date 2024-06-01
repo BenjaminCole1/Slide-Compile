@@ -21,4 +21,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ## Acknowledgments
+This project uses `tkinter`, which is licensed under the BSD-3-Clause license License. You can find more information about `tkinter` [here](https://github.com/ParthJadhav/Tkinter-Designer).
 This project uses `python-pptx`, which is licensed under the MIT License. You can find more information about `python-pptx` [here](https://github.com/scanny/python-pptx).

@@ -1,20 +1,70 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
+from tkinter.scrolledtext import ScrolledText
 from pptx import Presentation
 from pptx.util import Inches
 import requests
 from io import BytesIO
 from PIL import Image
 
-class SlideCompileEditor:
+class SyntaxHighlightingText(ScrolledText):
+    def __init__(self, master=None, **kwargs):
+        ScrolledText.__init__(self, master, **kwargs)
+        self._highlight_pattern_id = None
+        self._configure_tags()
 
+    def _configure_tags(self):
+        self.tag_configure("NewSlide", foreground="blue")
+        self.tag_configure("FormatNumber", foreground="darkred")
+        self.tag_configure("Title", foreground="forest green")
+        self.tag_configure("Content", foreground="darkorchid")
+        self.tag_configure("Image", foreground="chocolate")
+        self.tag_configure("ImagePosition", foreground="chocolate")
+        self.tag_configure("ImageSize", foreground="chocolate")
+
+    def highlight_pattern(self, pattern, tag, start="1.0", end="end", regexp=False):
+        start = self.index(start)
+        end = self.index(end)
+        self.mark_set("matchStart", start)
+        self.mark_set("matchEnd", start)
+        self.mark_set("searchLimit", end)
+        count = tk.IntVar()
+
+        while True:
+            index = self.search(pattern, "matchEnd", "searchLimit", count=count, regexp=regexp)
+            if index == "":
+                break
+            self.mark_set("matchStart", index)
+            self.mark_set("matchEnd", f"{index}+{count.get()}c")
+            self.tag_add(tag, "matchStart", "matchEnd")
+
+    def highlight_syntax(self):
+        keywords = {
+            "NewSlide": "NewSlide",
+            "FormatNumber": "FormatNumber",
+            "Title": "Title",
+            "Content": "Content",
+            "Image": "Image",
+            "ImagePosition": "ImagePosition",
+            "ImageSize": "ImageSize"
+        }
+
+        for tag, pattern in keywords.items():
+            self.highlight_pattern(pattern, tag, regexp=True)
+            self.highlight_pattern(pattern.lower(), tag, regexp=True)
+            self.highlight_pattern(pattern.replace('_', ''), tag, regexp=True)
+            self.highlight_pattern(pattern.replace('_', '').lower(), tag, regexp=True)
+
+        self.after(100, self.highlight_syntax)
+
+class SlideCompileEditor:
     def __init__(self, root):
         self.root = root
         self.root.title("SlideCompile")
         
         self.file_path = None
 
-        self.text_area = tk.Text(self.root, wrap='word')
+        self.text_area = SyntaxHighlightingText(self.root, wrap='word')
         self.text_area.pack(fill='both', expand=True)
         
         self.menu_bar = tk.Menu(self.root)
@@ -31,13 +81,13 @@ class SlideCompileEditor:
         
         self.root.bind_all('<Control-s>', self.handle_save_shortcut)
 
-        # Add Compile button
         self.compile_button = tk.Button(self.root, text="Compile", command=self.compile)
         self.compile_button.place(relx=1.0, rely=1.0, anchor='se', bordermode='outside')
 
-        # Add a status label
         self.status_label = tk.Label(self.root, text="", fg="blue")
         self.status_label.pack(side='bottom')
+
+        self.text_area.highlight_syntax()
 
     def handle_save_shortcut(self, event):
         self.save_file()
@@ -155,48 +205,38 @@ class SlideCompileEditor:
             self.show_error("File not found. Please save the file first.")
             return
 
-        current_slide_data = {'format_number': -1, 'title': '', 'content': '', 'image_url': '', 'image_position': '', 'image_size': 'medium'}
-
         prs = Presentation()
 
         try:
+            self.current_slide_data = {'format_number': -1, 'title': '', 'content': '', 'image_url': '', 'image_position': '', 'image_size': 'medium'}
             for lineNumber, line in enumerate(lines, start=1):
                 line = line.strip()
 
                 if line.lower() == "newslide" or line.lower() == "new_slide":
-                    if current_slide_data['format_number'] == -1:
-                        raise SlideCompileError("Format number not provided for the new slide.")
-                    self.add_slide(prs, current_slide_data['format_number'], current_slide_data['title'], current_slide_data['content'], current_slide_data['image_url'], current_slide_data['image_position'], current_slide_data['image_size'], lineNumber)
-                    current_slide_data = {'format_number': -1, 'title': '', 'content': '', 'image_url': '', 'image_position': '', 'image_size': 'medium'}
+                    if self.current_slide_data['format_number'] != -1:
+                        self.add_slide(prs, self.current_slide_data['format_number'], self.current_slide_data['title'], self.current_slide_data['content'], self.current_slide_data['image_url'], self.current_slide_data['image_position'], self.current_slide_data['image_size'], lineNumber)
+                    self.current_slide_data = {'format_number': -1, 'title': '', 'content': '', 'image_url': '', 'image_position': '', 'image_size': 'medium'}
                 elif line.lower().startswith("formatnumber:") or line.lower().startswith("format_number"):
                     _, format_number = line.split(':', 1)
-                    current_slide_data['format_number'] = int(format_number.strip())
+                    self.current_slide_data['format_number'] = int(format_number.strip())
                 elif line.lower().startswith("title:"):
                     _, title = line.split(':', 1)
-                    current_slide_data['title'] = title.strip()
+                    self.current_slide_data['title'] = title.strip()
                 elif line.lower().startswith("content:"):
                     _, content = line.split(':', 1)
-                    current_slide_data['content'] += content.strip() + '\n'
+                    self.current_slide_data['content'] += content.strip() + '\n'
                 elif line.lower().startswith("image:"):
                     _, image_url = line.split(':', 1)
-                    current_slide_data['image_url'] = image_url.strip()
+                    self.current_slide_data['image_url'] = image_url.strip()
                 elif line.lower().startswith("imageposition:") or line.lower().startswith("image_position:"):
                     _, image_position = line.split(':', 1)
-                    current_slide_data['image_position'] = image_position.strip()
+                    self.current_slide_data['image_position'] = image_position.strip()
                 elif line.lower().startswith("imagesize:") or line.lower().startswith("image_size:"):
                     _, image_size = line.split(':', 1)
-                    current_slide_data['image_size'] = image_size.strip()
-                else:
-                    raise InvalidLineError(lineNumber)
+                    self.current_slide_data['image_size'] = image_size.strip()
 
-            if current_slide_data['format_number'] != -1:
-                self.add_slide(prs, current_slide_data['format_number'], current_slide_data['title'], current_slide_data['content'], current_slide_data['image_url'], current_slide_data['image_position'], current_slide_data['image_size'], lineNumber)
-            else:
-                raise SlideCompileError("Format number not provided for the new slide.")
-        except (SlideFormatError, ImageDownloadError, SlideCreationError, InvalidLineError, SlideCompileError) as e:
-            self.show_error(str(e))
-            self.status_label.config(text="")
-            return
+            if self.current_slide_data['format_number'] != -1:
+                self.add_slide(prs, self.current_slide_data['format_number'], self.current_slide_data['title'], self.current_slide_data['content'], self.current_slide_data['image_url'], self.current_slide_data['image_position'], self.current_slide_data['image_size'], lineNumber)
         except Exception as e:
             self.show_error(f"An unexpected error occurred: {e}")
             self.status_label.config(text="")
@@ -207,19 +247,13 @@ class SlideCompileEditor:
             prs.save(file_path)
 
         self.status_label.config(text="Compilation finished!")
+        
     def show_error(self, error_message):
         messagebox.showerror("Error", error_message)
         self.status_label.config(text="")
 
 class SlideCompileError(Exception):
     pass
-
-class SlideFormatError(SlideCompileError):
-    def __init__(self, format_number, line_number):
-        self.format_number = format_number
-        self.line_number = line_number
-        self.message = f"Invalid slide format number '{format_number}' on line {line_number}. Valid format numbers are between 1-10 (though 1 and 2 are the most common and should be the only ones you need)."
-        super().__init__(self.message)
 
 class ImageDownloadError(SlideCompileError):
     def __init__(self, image_url, line_number):
@@ -233,12 +267,6 @@ class SlideCreationError(SlideCompileError):
         self.line_number = line_number
         self.error = error
         self.message = f"Error creating slide on line {line_number}: {error}. Please check the slide data."
-        super().__init__(self.message)
-
-class InvalidLineError(SlideCompileError):
-    def __init__(self, line_number):
-        self.line_number = line_number
-        self.message = f"Invalid line format on line {line_number}. Please ensure the line follows the correct format."
         super().__init__(self.message)
 
 if __name__ == "__main__":

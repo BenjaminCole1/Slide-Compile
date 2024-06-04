@@ -25,3 +25,4 @@ This project uses `tkinter`, which is licensed under the BSD-3-Clause license. Y
 This project uses `python-pptx`, which is licensed under the MIT License. You can find more information about `python-pptx` here: https://github.com/scanny/python-pptx.
 This project uses `Pillow`, which is licensed under the HPND License. You can find more information about `Pillow` here: https://github.com/python-pillow/Pillow.
 This project uses `requests`, which is licensed under the Apache License 2.0. You can find more information about `requests` here: https://github.com/psf/requests.
+This project uses `Pygments`, which is licensed under the BSD-2-Clause license. You can find more information about `Pygments` [here](https://github.com/pygments/pygments-main).

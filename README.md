@@ -14,7 +14,7 @@
 2. Write slides with the syntax shown in the syntax section
 3. Press Compile; if you didn't save, it will prompt you to save to a location, and then it will prompt you to save the pptx (PowerPoint file) to a location on your computer
 4. If you get any errors or you can't get it working, first try troubleshooting them within the "Common Errors" section in this readme
-5. Edit further in PowerPoint software to customize more
+5. Edit further in a PowerPoint software to customize more
 
 ### Syntax
 Syntax is the following; it is not case sensitive

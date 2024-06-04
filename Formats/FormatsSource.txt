@@ -1,0 +1,61 @@
+# example input
+
+# Slide 1
+
+newSlide
+formatNumber: 1
+title: format number 1
+content: Content 1
+Content: Content 2
+
+# slide 2
+new_slide
+Format_Number: 2
+Title: format number 2
+Content: Content 1
+Content: Content 2
+Content: Content 3
+
+# slide 3
+new_slide
+format_number: 3
+Title: format number 3
+Content: Content 1
+
+# slide 4
+new_slide
+format_number: 4
+Title: format number 4
+Content: Content 1
+
+# slide 5
+new_slide
+format_number: 5
+Title: format number 5
+
+# slide 6
+new_slide
+format_number: 6
+
+# slide 7
+new_slide
+format_number: 7
+
+# slide 8
+new_slide
+format_number: 8
+title: format number 8 
+
+# slide 9
+new_slide
+format_number: 9
+Title: format number 9
+Content: Content 1
+
+# slide 10
+new_slide
+format_number: 10
+Title: format number 10
+Content: Content 1
+
+

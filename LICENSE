@@ -20,6 +20,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## Acknowledgments
-This project uses `tkinter`, which is licensed under the BSD-3-Clause license License. You can find more information about `tkinter` [here](https://github.com/ParthJadhav/Tkinter-Designer).
-This project uses `python-pptx`, which is licensed under the MIT License. You can find more information about `python-pptx` [here](https://github.com/scanny/python-pptx).
+Acknowledgments
+This project uses `tkinter`, which is licensed under the BSD-3-Clause license. You can find more information about `tkinter` here: https://github.com/ParthJadhav/Tkinter-Designer.
+This project uses `python-pptx`, which is licensed under the MIT License. You can find more information about `python-pptx` here: https://github.com/scanny/python-pptx.
+This project uses `Pillow`, which is licensed under the HPND License. You can find more information about `Pillow` here: https://github.com/python-pillow/Pillow.
+This project uses `requests`, which is licensed under the Apache License 2.0. You can find more information about `requests` here: https://github.com/psf/requests.

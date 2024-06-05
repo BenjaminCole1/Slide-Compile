@@ -261,6 +261,14 @@ class SlideCompileEditor:
 class SlideCompileError(Exception):
     pass
 
+
+class SlideFormatError(SlideCompileError):
+    def __init__(self, format_number, line_number):
+        self.format_number = format_number
+        self.line_number = line_number
+        self.message = f"Invalid slide format number '{format_number}' on line {line_number}."
+        super().__init__(self.message)
+
 class ImageDownloadError(SlideCompileError):
     def __init__(self, image_url, line_number):
         self.image_url = image_url

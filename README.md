@@ -13,6 +13,7 @@
 
 1. **Install Python:**
    - Ensure Python 3.7 or higher is installed on your system. You can download Python from [python.org](https://www.python.org/downloads/).
+   - Make sure to tick "pip" and "tcl/tk and IDLE" when installing python. If you have python installed already, download the installer open it and click modify. 
 
 2. **Install Required Packages:**
    - Open a command prompt and run the following commands to install the necessary Python packages:

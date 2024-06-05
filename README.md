@@ -4,7 +4,7 @@
 
 ### Dependencies
 - Windows
-- Python 3.7 or higher
+- Python 3.12.3 or higher
 - python-pptx
 - Pillow
 - requests

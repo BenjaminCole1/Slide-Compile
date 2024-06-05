@@ -80,6 +80,7 @@ class SlideCompileEditor:
         self.root.config(menu=self.menu_bar)
         
         self.root.bind_all('<Control-s>', self.handle_save_shortcut)
+        self.root.bind_all('<Control-c>', self.handle_copy_shortcut)
 
         self.compile_button = tk.Button(self.root, text="Compile", command=self.compile)
         self.compile_button.place(relx=1.0, rely=1.0, anchor='se', bordermode='outside')
@@ -91,6 +92,11 @@ class SlideCompileEditor:
 
     def handle_save_shortcut(self, event):
         self.save_file()
+
+    def handle_copy_shortcut(self, event):
+        selected_text = self.text_area.get(tk.SEL_FIRST, tk.SEL_LAST)
+        self.root.clipboard_clear()
+        self.root.clipboard_append(selected_text)
         
     def open_file(self):
         try:

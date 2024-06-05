@@ -4,10 +4,27 @@
 
 ### Dependencies
 - Windows
-- Python
+- Python 3.12.3 or higher
 - python-pptx
 - Pillow
 - requests
+
+### Installation Guide
+
+1. **Install Python:**
+   - Ensure Python 3.7 or higher is installed on your system. You can download Python from [python.org](https://www.python.org/downloads/).
+   - Make sure to tick "pip" and "tcl/tk and IDLE" when installing python. If you have python installed already, download the installer open it and click modify. 
+
+2. **Install Required Packages:**
+   - Open a command prompt and run the following commands to install the necessary Python packages:
+     ```sh
+     pip install python-pptx
+     pip install Pillow
+     pip install requests
+     ```
+
+3. **Download Slide-Compile:**
+   - Download the `SlideCompile.py` script and place it in a desired directory on your computer.
 
 ### Usage
 1. Run `SlideCompile.py`
